@@ -1,0 +1,56 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui">
+    
+
+    <ui:define name="titulo">#{cadastraUsuarioBean.editando ? "Editar usuário" : "Novo usuário"}</ui:define>
+    
+    <ui:define name="corpo">
+    	<f:metadata>
+			<o:viewParam name="usuario" value="#{cadastraUsuarioBean.usuario}"  />
+		</f:metadata> 
+ 
+    	<h1>#{cadastraUsuarioBean.editando ? "Editar usuário" : "Novo usuário"}</h1>
+    	
+    	<h:form id="frmCadastro">
+    		<p:messages id="messages" autoUpdate="true" closable="true" />
+    	
+	    	<p:toolbar style="margin-top: 20px">
+	    		<p:toolbarGroup>
+	    			<p:commandButton  value="Salvar" id="botaoSalvar" action="#{cadastraUsuarioBean.salvar}"  update="frmCadastro" icon="ui-icon-disk"/>
+	    		</p:toolbarGroup>
+	    		<p:toolbarGroup align="right">
+					<p:button value="Pesquisa" outcome="/usuario/PesquisaUsuarios.xhtml" icon="ui-icon-search"/>
+				</p:toolbarGroup>
+	    	</p:toolbar>
+	    	
+	    	<p:panelGrid columns="4" id="painel" style="width: 100%; margin-top: 20px"
+	    			columnClasses="rotulo, campo,rotulo,campo">
+	    		<p:outputLabel value="Código" for="codigo"/>
+	    		<p:inputText id="codigo" size="20" maxlength="20" value="#{cadastraUsuarioBean.usuario.codigo}" readonly="true"/>
+	    		
+	    		<p:outputLabel value="Nome" for="nome"/>
+	    		<p:inputText id="nome" size="50" maxlength="80"  value="#{cadastraUsuarioBean.usuario.nome}"/>
+	    		
+	    		<p:outputLabel value="Usuário" for="usuario"/>
+	    		<p:inputText id="usuario" size="20" maxlength="80"  value="#{cadastraUsuarioBean.usuario.usuario}"/>
+	            
+	            <p:outputLabel value="Senha" for="senha"/>
+	            <p:password id="senha" size="20" maxlength="80" feedback="true" promptLabel="Informe uma senha"  weakLabel="Fraca" goodLabel="Boa" strongLabel="Forte"
+	            redisplay="true"  value="#{cadastraUsuarioBean.usuario.senha}" />
+
+                <p:outputLabel value="Grupo" for="grupo"/>
+	    		<p:selectOneMenu converter="grupoConverter" id="grupo" value="#{cadastraUsuarioBean.usuario.grupo}">
+	    		<f:selectItem itemLabel="Selecione o grupo" />
+	    		<f:selectItems value="#{cadastraUsuarioBean.grupos}" var="grupo"  
+				itemLabel="#{grupo.descricao}" itemValue="#{grupo}"/>
+	    		</p:selectOneMenu>	
+	    		
+	    	</p:panelGrid>
+    	</h:form>
+    </ui:define>
+</ui:composition>

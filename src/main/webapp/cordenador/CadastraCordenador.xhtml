@@ -1,0 +1,117 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui">
+    
+
+    <ui:define name="titulo">#{cadastraCordenadorBean.editando ? "Editar cordenador" : "Novo cordenador"}</ui:define>
+    
+    <ui:define name="corpo">
+    	<f:metadata>
+			<o:viewParam name="cordenador" value="#{cadastraCordenadorBean.cordenador}"  />
+		</f:metadata> 
+ 
+    	<h1>#{cadastraCordenadorBean.editando ? "Editar cordenador" : "Novo cordenador"}</h1>
+    	
+    	<h:form id="frmCadastro">
+    		<p:messages id="messages" autoUpdate="true" closable="true" />
+    	
+	    	<p:toolbar style="margin-top: 20px">
+	    		<p:toolbarGroup>
+	    			<p:commandButton  value="Salvar" id="botaoSalvar" action="#{cadastraCordenadorBean.salvar}"  update="frmCadastro" icon="ui-icon-disk"/>
+	    		</p:toolbarGroup>
+	    		<p:toolbarGroup align="right">
+					<p:button value="Pesquisa" outcome="/cordenador/PesquisaCordenadores.xhtml" icon="ui-icon-search"/>
+				</p:toolbarGroup>
+	    	</p:toolbar>
+	    	
+	    	
+	    	 <p:panelGrid  columns="4" id="painel3" style="width: 30%; margin-top: 20px"
+	    			columnClasses="rotulo, campo">
+	    		<p:outputLabel  value="Código" for="codigo"/>
+	    		<p:inputText id="codigo" size="20" maxlength="20" value="#{cadastraCordenadorBean.cordenador.codigo}" readonly="true"/>
+	    		
+	    	</p:panelGrid>
+	    	
+	    	<p:tabView style="margin-top: 20px">
+	    	  <p:tab title="Dados pessoais">
+	    	  
+	    	  <p:panelGrid columns="4" id="painel" style="width: 100%; margin-top: 20px"
+	    			columnClasses="rotulo, campo,rotulo,campo">
+	    		
+	    		
+	    		<p:outputLabel value="Nome" for="nome"/>
+	    		<p:inputText id="nome" size="50" maxlength="80"  value="#{cadastraCordenadorBean.cordenador.nome}"/>
+	    		
+	    		<p:outputLabel value="Sexo" for="sexo"/>
+	    		<p:selectOneRadio id="sexo"  unselectable="true" value="#{cadastraCordenadorBean.cordenador.sexo}" >
+                <f:selectItem itemLabel="Masculino" itemValue="Masculino" />
+                <f:selectItem itemLabel="Feminino" itemValue="Feminino" />
+                </p:selectOneRadio>
+	    		
+	    		<p:outputLabel value="Email" for="email"/>
+	    		<p:inputText id="email" size="40" maxlength="80" value="#{cadastraCordenadorBean.cordenador.email}"/>
+	    		
+	    	
+	    		<p:outputLabel value="Cpf" for="cpf"/>
+	    		<p:inputText id="cpf" size="15" maxlength="80" value="#{cadastraCordenadorBean.cordenador.cpf}"/>
+	    		
+	    		<p:outputLabel value="Rg" for="rg"/>
+	    		<p:inputText id="rg" size="15" maxlength="80" value="#{cadastraCordenadorBean.cordenador.rg}"/>
+	    		
+	    		<p:outputLabel value="Telefone" for="telefone"/>
+	    		<p:inputText id="telefone" size="15" maxlength="80" value="#{cadastraCordenadorBean.cordenador.telefone}"/>
+
+	    		
+	    	</p:panelGrid>
+	 
+	    	  
+	   </p:tab>
+	    	  
+	    
+	    <p:tab title="Endereço">
+	    
+	
+	        <p:panelGrid columns="4" id="painelEndereco" style="width: 100%; margin-top: 20px"
+	    			columnClasses="rotulo, campo,rotulo,campo">
+	    			
+	    		
+	    		<p:commandButton  value="Buscar cep"  update="painelEndereco" action="#{cadastraCordenadorBean.carregarEndereco}">
+	    		<f:ajax event="click" render="panelEndereco"
+										execute="@this cep"
+										listener="#{cadastraCordenadorBean.carregarEndereco}" />
+	    		</p:commandButton>
+	    		<p:inputText  label="cep" id="cep" size="7" maxlength="9" value="#{cadastraCordenadorBean.cordenador.cep}"/>		
+	    						
+	    		<p:outputLabel value="Cidade" for="cidade"/>
+	    		<p:inputText id="cidade" size="20" maxlength="60" value="#{cadastraCordenadorBean.cordenador.localidade}"/>
+	    		
+	    		<p:outputLabel value="Estado" for="estado"/>
+	    		<p:inputText id="estado" size="20" maxlength="80" value="#{cadastraCordenadorBean.cordenador.uf}"/>
+	    		
+	    		<p:outputLabel value="Nacionalidade" for="nacionalidade"/>
+	    		<p:inputText id="nacionalidade" size="20" maxlength="80" value="#{cadastraCordenadorBean.cordenador.nacionalidade}"/>
+	    		
+	    		<p:outputLabel value="Bairro" for="bairro"/>
+	    		<p:inputText id="bairro" size="20" maxlength="80" value="#{cadastraCordenadorBean.cordenador.bairro}"/>
+	    		
+	    		
+	    		<p:outputLabel value="Endereço" for="endereco"/>
+	    		<p:inputText id="endereco" size="60" maxlength="80" value="#{cadastraCordenadorBean.cordenador.logradouro}"/>
+	    		
+	    		<p:outputLabel value="Numero" for="numero"/>
+	    		<p:inputText id="numero" size="7" maxlength="8" value="#{cadastraCordenadorBean.cordenador.numero}"/>
+	    		
+	    	</p:panelGrid> 
+	    	  
+	   </p:tab>
+	    	  
+	    	  
+	    	
+	    	</p:tabView>
+    	</h:form>
+    </ui:define>
+</ui:composition>

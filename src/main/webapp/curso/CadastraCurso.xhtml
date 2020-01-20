@@ -1,0 +1,63 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui">
+    
+
+    <ui:define name="titulo">#{cadastraCursoBean.editando ? "Editar curso" : "Novo curso"}</ui:define>
+    
+    <ui:define name="corpo">
+    	<f:metadata>
+			<o:viewParam name="curso" value="#{cadastraCursoBean.curso}"  />
+		</f:metadata> 
+ 
+    	<h1>#{cadastraCursoBean.editando ? "Editar curso" : "Novo curso"}</h1>
+    	
+    	<h:form id="frmCadastro">
+    		<p:messages id="messages" autoUpdate="true" closable="true" />
+    	
+	    	<p:toolbar style="margin-top: 20px">
+	    		<p:toolbarGroup>
+	    			<p:commandButton  value="Salvar" id="botaoSalvar" action="#{cadastraCursoBean.salvar}"  update="frmCadastro" icon="ui-icon-disk"/>
+	    		</p:toolbarGroup>
+	    		<p:toolbarGroup align="right">
+					<p:button value="Pesquisa" outcome="/curso/PesquisaCursos.xhtml" icon="ui-icon-search"/>
+				</p:toolbarGroup>
+	    	</p:toolbar>
+	    	
+	    	<p:panelGrid columns="4" id="painel" style="width: 100%; margin-top: 20px"
+	    			columnClasses="rotulo, campo,rotulo,campo">
+	    		<p:outputLabel value="Código" for="codigo"/>
+	    		<p:inputText id="codigo" size="20" maxlength="20" value="#{cadastraCursoBean.curso.codigo}" readonly="true"/>
+	    		
+	    		<p:outputLabel value="Nome" for="nome"/>
+	    		<p:inputText id="nome" size="50" maxlength="80"  value="#{cadastraCursoBean.curso.nome}"/>
+	    		
+	    		<p:outputLabel value="Nivel" for="nivel"/>
+	    		<p:selectOneMenu id="nivel" value="#{cadastraCursoBean.curso.nivel}">
+	    		<f:selectItem itemLabel="Selecione o nivel" />
+	    		<f:selectItems value="#{cadastraCursoBean.niveis}" var="nivel"  
+				itemLabel="#{nivel}" itemValue="#{nivel}"/>
+	    		</p:selectOneMenu>
+	    		
+	    		<p:outputLabel value="Cordenador" for="cordenador"/>
+	    		<p:selectOneMenu id="cordenador" value="#{cadastraCursoBean.curso.cordenador}">
+	    		<f:selectItem itemLabel="Selecione o cordenador" />
+	    		<f:selectItems value="#{cadastraCursoBean.cordenadores}" var="cordenador"  
+				itemLabel="#{cordenador.nome}" itemValue="#{cordenador}"/>
+				</p:selectOneMenu>
+				
+			    <p:outputLabel value="Unidade" for="unidade"/>
+	    		<p:selectOneMenu id="unidade" value="#{cadastraCursoBean.curso.unidade}">
+	    		<f:selectItem itemLabel="Selecione a unidade" />
+	    		<f:selectItems value="#{cadastraCursoBean.unidades}" var="unidade"  
+				itemLabel="#{unidade.descricao}" itemValue="#{unidade}"/>
+	    		</p:selectOneMenu>
+
+	    	</p:panelGrid>
+    	</h:form>
+    </ui:define>
+</ui:composition>

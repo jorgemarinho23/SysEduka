@@ -1,0 +1,99 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="titulo">Pesquisa de alunos</ui:define>
+    
+    <ui:define name="corpo">
+    	<h1>Pesquisa de alunos</h1>
+    	
+    	<h:form id="frmPesquisa">
+    		<p:messages id="messages" autoUpdate="true" closable="true" />
+    		
+    		<p:toolbar style="margin-top: 20px">
+    		    <p:toolbarGroup>
+    				<p:commandButton value="Pesquisar" id="pesquisar" action="#{pesquisaAlunoBean.buscarPorNome}"  icon="ui-icon-search"
+    				update="@form"/>
+    			</p:toolbarGroup>
+    			<p:toolbarGroup align="right">
+    				<p:commandButton  value="Novo" id="botaoNovo" action="/aluno/CadastraAluno.xhtml" icon="ui-icon-circlesmall-plus"/>
+    			</p:toolbarGroup>
+    		</p:toolbar>
+    		
+    		<p:panelGrid columns="2" id="painel" style="width: 100%; margin-top: 20px"
+	    			columnClasses="rotulo, campo">
+	    		<p:outputLabel value="Nome" for="nome"/>
+	    		<p:inputText id="nome" size="60" value="#{pesquisaAlunoBean.nome}" />
+	    	</p:panelGrid>
+    	
+	    	<p:dataTable  id="alunosTable" value="#{pesquisaAlunoBean.alunoDataModel}" var="aluno"
+		    		style="margin-top: 20px" emptyMessage="Nenhum aluno encontrado." rows="5"
+		    		paginator="true" paginatorAlwaysVisible="false" lazy="true" rowsPerPageTemplate="5,10,15" paginatorPosition="bottom" >
+		    		<p:column headerText="Código" style="text-align: center; width: 100px">
+		    			<h:outputText value="#{aluno.codigo}" />
+		    		</p:column>
+		    		<p:column headerText="Nome">
+		    			<h:outputText value="#{aluno.nome}" />
+		    		</p:column>
+		    		
+		    		<p:column headerText="Sexo">
+		    			<h:outputText value="#{aluno.sexo}" />
+		    		</p:column>
+		    		
+		    		<p:column headerText="Email">
+		    			<h:outputText value="#{aluno.email}" />
+		    		</p:column>
+		    		
+		    		<p:column headerText="Cidade">
+		    			<h:outputText value="#{aluno.cidade}" />
+		    		</p:column>
+		    		
+		    		<p:column headerText="Estado">
+		    			<h:outputText value="#{aluno.estado}" />
+		    		</p:column>
+		    		
+		    		<p:column headerText="País">
+		    			<h:outputText value="#{aluno.pais}" />
+		    		</p:column>
+		    		
+		    		<p:column headerText="Endereço">
+		    			<h:outputText value="#{aluno.endereco}" />
+		    		</p:column>
+		    		
+		    		<p:column headerText="Cpf">
+		    			<h:outputText value="#{aluno.cpf}" />
+		    		</p:column>
+		    		
+		    		<p:column headerText="Rg">
+		    			<h:outputText value="#{aluno.rg}" />
+		    		</p:column>
+		    	
+		    	   <p:column headerText="Telefone">
+		    			<h:outputText value="#{aluno.telefone}" />
+		    		</p:column>
+		    		
+		    		
+		   <p:column style="width: 100px; text-align: center"> 
+		    			<p:button outcome="CadastraAluno" icon="ui-icon-pencil" title="Editar">
+		    				<f:param name="aluno" value="#{aluno.codigo}"/>
+		    			</p:button>
+		    			<p:commandButton disabled="#{seguranca.excluirRegistro}" icon="ui-icon-trash" title="Excluir" oncomplete="confirmacaoExclusao.show()"
+								process="@this" update=":frmPesquisa:confirmacaoExclusaoDialog">
+								<f:setPropertyActionListener target="#{pesquisaAlunoBean.alunoSelecionado}" value="#{aluno}" />
+						</p:commandButton>
+		   </p:column>
+		    </p:dataTable>
+		    
+		    <p:confirmDialog id="confirmacaoExclusaoDialog" widgetVar="confirmacaoExclusao"
+	        		message="Tem certeza que deseja excluir o aluno #{pesquisaAlunoBean.alunoSelecionado.nome}?"  
+	                header="Exclusão de aluno" severity="alert">
+	        	<p:button value="Não" onclick="confirmacaoExclusao.hide(); return false;" />
+	        	<p:commandButton value="Sim" update=":frmPesquisa:alunosTable"
+	        			onclick="confirmacaoExclusao.hide()" action="#{pesquisaAlunoBean.excluir}" />
+	    	</p:confirmDialog>
+	    </h:form>
+    </ui:define>
+</ui:composition>

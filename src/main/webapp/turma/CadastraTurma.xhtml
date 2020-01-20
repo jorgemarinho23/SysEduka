@@ -1,0 +1,65 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui">
+    
+
+    <ui:define name="titulo">#{cadastraTurmaBean.editando ? "Editar turma" : "Nova turma"}</ui:define>
+    
+    <ui:define name="corpo">
+    	<f:metadata>
+			<o:viewParam name="turma" value="#{cadastraTurmaBean.turma}"  />
+		</f:metadata> 
+ 
+    	<h1>#{cadastraTurmaBean.editando ? "Editar turma" : "Nova turma"}</h1>
+    	
+    	<h:form id="frmCadastro">
+    		<p:messages id="messages" autoUpdate="true" closable="true" />
+    	
+	    	<p:toolbar style="margin-top: 20px">
+	    		<p:toolbarGroup>
+	    			<p:commandButton  value="Salvar" id="botaoSalvar" action="#{cadastraTurmaBean.salvar}"  update="frmCadastro" icon="ui-icon-disk"/>
+	    		</p:toolbarGroup>
+	    		<p:toolbarGroup align="right">
+					<p:button value="Pesquisa" outcome="/turma/PesquisaTurmas.xhtml" icon="ui-icon-search"/>
+				</p:toolbarGroup>
+	    	</p:toolbar>
+	    	
+	    	<p:panelGrid columns="4" id="painel" style="width: 100%; margin-top: 20px"
+	    			columnClasses="rotulo, campo,rotulo,campo">
+	    		<p:outputLabel rendered="false" value="Código" for="codigo"/>
+	    		<p:inputText rendered="false" id="codigo" size="20" maxlength="20" value="#{cadastraTurmaBean.turma.codigo}" readonly="true"/>
+	    		
+	    		<p:outputLabel  value="Descricao" for="descricao"/>
+	    		<p:inputText id="descricao" size="50" maxlength="80"  value="#{cadastraTurmaBean.turma.descricao}"/>
+	    		
+	    		<p:outputLabel value="Curso" for="curso"/>
+	    		<p:selectOneMenu id="curso" value="#{cadastraTurmaBean.turma.curso}">
+	    		<f:selectItem itemLabel="Selecione o curso" />
+	    		<f:selectItems value="#{cadastraTurmaBean.cursos}" var="curso"  
+				itemLabel="#{curso.nome}" itemValue="#{curso}"/>
+	    		</p:selectOneMenu>
+	    		
+                <p:outputLabel value="Turno" for="turno"/>
+	    		<p:selectOneMenu id="turno" value="#{cadastraTurmaBean.turma.turno}">
+	    		<f:selectItem itemLabel="Selecione o turno" />
+	    		<f:selectItems value="#{cadastraTurmaBean.turnos}" var="turno"  
+				itemLabel="#{turno}" itemValue="#{turno}"/>
+	    		</p:selectOneMenu>
+
+	    		<p:outputLabel value="Capacidade" for="capacidade"/>
+	    		<p:inputText id="capacidade" size="3" maxlength="100"  value="#{cadastraTurmaBean.turma.capacidade}"/>
+	    		
+	    		<p:outputLabel value="Hora inicial" for="horainicio"/>
+	    		<p:calendar locale="pt" title="Hora"  timeOnly="true"   id="horainicio" size="3" value="#{cadastraTurmaBean.turma.horaInicio}" pattern="HH:mm" stepMinute="10"/>
+	    			    		
+	    		<p:outputLabel value="Hora final" for="horafinal"/>
+	    		<p:calendar locale="pt"  timeOnly="true"  id="horafinal" size="3" value="#{cadastraTurmaBean.turma.horaFim}" pattern="HH:mm" stepMinute="10"/>
+    
+	    	</p:panelGrid>
+    	</h:form>
+    </ui:define>
+</ui:composition>

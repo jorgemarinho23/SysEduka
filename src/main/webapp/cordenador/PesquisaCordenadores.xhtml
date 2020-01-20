@@ -1,0 +1,93 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="titulo">Pesquisa de cordenadores</ui:define>
+    
+    <ui:define name="corpo">
+    	<h1>Pesquisa de cordenadores</h1>
+    	
+    	<h:form id="frmPesquisa">
+    		<p:messages id="messages" autoUpdate="true" closable="true" />
+    		
+    		<p:toolbar style="margin-top: 20px">
+    		    <p:toolbarGroup>
+    				<p:commandButton value="Pesquisar" id="pesquisar" action="#{pesquisaCordenadorBean.buscarPorNome}"  icon="ui-icon-search"
+    				update="@form"/>
+    			</p:toolbarGroup>
+    		    <p:toolbarGroup align="right">
+    				<p:commandButton value="Novo" id="botaoNovo" action="/cordenador/CadastraCordenador.xhtml" icon="ui-icon-circlesmall-plus"/>
+    			</p:toolbarGroup>
+    		</p:toolbar>
+    		
+    		<p:panelGrid columns="2" id="painel" style="width: 100%; margin-top: 20px"
+	    			columnClasses="rotulo, campo">
+	    		<p:outputLabel value="Nome" for="nome"/>
+	    		<p:inputText id="nome" size="60" value="#{pesquisaCordenadorBean.nome}" />
+	    	</p:panelGrid>
+    	
+	    	<p:dataTable id="cordenadoresTable" value="#{pesquisaCordenadorBean.cordenadores}" var="cordenador"
+		    		style="margin-top: 20px" emptyMessage="Nenhum cordenador encontrado." rows="5" rowsPerPageTemplate="5,10,15"
+		    		paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom">
+		    		<p:column headerText="Código" style="text-align: center; width: 100px">
+		    			<h:outputText value="#{cordenador.codigo}" />
+		    		</p:column>
+		    		<p:column headerText="Nome">
+		    			<h:outputText value="#{cordenador.nome}" />
+		    		</p:column>
+		    		
+		    		<p:column headerText="Sexo">
+		    			<h:outputText value="#{cordenador.sexo}" />
+		    		</p:column>
+		    		
+		    		<p:column headerText="Email">
+		    			<h:outputText value="#{cordenador.email}" />
+		    		</p:column>
+		    		
+		    		
+		    		
+		    		
+		    		
+		    		<p:column headerText="Nacionalidade">
+		    			<h:outputText value="#{cordenador.nacionalidade}" />
+		    		</p:column>
+		    		
+		    		
+		    		
+		    		<p:column headerText="Cpf">
+		    			<h:outputText value="#{cordenador.cpf}" />
+		    		</p:column>
+		    		
+		    		<p:column headerText="Rg">
+		    			<h:outputText value="#{cordenador.rg}" />
+		    		</p:column>
+		    	
+		    	   <p:column headerText="Telefone">
+		    			<h:outputText value="#{cordenador.telefone}" />
+		    		</p:column>
+		    		
+		    		
+		   <p:column style="width: 100px; text-align: center"> 
+		    			<p:button outcome="CadastraCordenador" icon="ui-icon-pencil" title="Editar">
+		    				<f:param name="cordenador" value="#{cordenador.codigo}"/>
+		    			</p:button>
+		    			<p:commandButton disabled="#{seguranca.excluirRegistro}" icon="ui-icon-trash" title="Excluir" oncomplete="confirmacaoExclusao.show()"
+								process="@this" update=":frmPesquisa:confirmacaoExclusaoDialog">
+							<f:setPropertyActionListener target="#{pesquisaCordenadorBean.cordenadorSelecionado}" value="#{cordenador}" />
+						</p:commandButton>
+		   </p:column>
+		    </p:dataTable>
+		    
+		    <p:confirmDialog id="confirmacaoExclusaoDialog" widgetVar="confirmacaoExclusao"
+	        		message="Tem certeza que deseja excluir o cordenador #{pesquisaCordenadorBean.cordenadorSelecionado.nome}?"  
+	                header="Exclusão de cordenador" severity="alert">
+	        	<p:button value="Não" onclick="confirmacaoExclusao.hide(); return false;" />
+	        	<p:commandButton value="Sim" update=":frmPesquisa:cordenadoresTable"
+	        			onclick="confirmacaoExclusao.hide()" action="#{pesquisaCordenadorBean.excluir}" />
+	    	</p:confirmDialog>
+	    </h:form>
+    </ui:define>
+</ui:composition>

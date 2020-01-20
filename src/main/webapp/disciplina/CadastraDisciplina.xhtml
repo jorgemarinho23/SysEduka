@@ -1,0 +1,42 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui">
+    
+
+    <ui:define name="titulo">#{cadastraDisciplinaBean.editando ? "Editar disciplina" : "Nova disciplina"}</ui:define>
+    
+    <ui:define name="corpo">
+    	<f:metadata>
+			<o:viewParam name="disciplina" value="#{cadastraDisciplinaBean.disciplina}"  />
+		</f:metadata> 
+ 
+    	<h1>#{cadastraDisciplinaBean.editando ? "Editar disciplina" : "Nova disciplina"}</h1>
+    	
+    	<h:form id="frmCadastro">
+    		<p:messages id="messages" autoUpdate="true" closable="true" />
+    	
+	    	<p:toolbar style="margin-top: 20px">
+	    		<p:toolbarGroup>
+	    			<p:commandButton  value="Salvar" id="botaoSalvar" action="#{cadastraDisciplinaBean.salvar}"  update="frmCadastro" icon="ui-icon-disk"/>
+	    		</p:toolbarGroup>
+	    		<p:toolbarGroup align="right">
+					<p:button value="Pesquisa" outcome="/disciplina/PesquisaDisciplinas.xhtml" icon="ui-icon-search"/>
+				</p:toolbarGroup>
+	    	</p:toolbar>
+	    	
+	    	<p:panelGrid columns="4" id="painel" style="width: 100%; margin-top: 20px"
+	    			columnClasses="rotulo, campo,rotulo,campo">
+	    		<p:outputLabel value="Código" for="codigo"/>
+	    		<p:inputText id="codigo" size="20" maxlength="20" value="#{cadastraDisciplinaBean.disciplina.codigo}" readonly="true"/>
+	    		
+	    		<p:outputLabel value="Descricao" for="descricao"/>
+	    		<p:inputText id="descricao" size="50" maxlength="80"  value="#{cadastraDisciplinaBean.disciplina.descricao}"/>
+
+	    	</p:panelGrid>
+    	</h:form>
+    </ui:define>
+</ui:composition>

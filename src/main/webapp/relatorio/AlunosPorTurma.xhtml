@@ -1,0 +1,62 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="titulo">Relatório</ui:define>
+    
+    <ui:define name="corpo">
+    	<h1>Alunos por turma</h1>
+    	
+    	<h:form id="frmFiltro">
+    		<p:messages id="messages" autoUpdate="true" closable="true" />
+    		
+    		<p:toolbar style="margin-top: 20px">
+    			<p:toolbarGroup>
+					<p:commandButton value="Emitir" id="botaoPesquisa" action="#{relatorioAlunoPorTurmaBean.executar}" update="@form" icon="ui-icon-search"/>
+				</p:toolbarGroup>
+    		</p:toolbar>
+    		
+    		<p:panelGrid columns="2" id="painel" style="width: 100%" columnClasses="rotulo, campo">
+			    <p:outputLabel value="turma" for="turma"/>
+			    <p:selectOneMenu id="turma" value="#{relatorioAlunoPorTurmaBean.turma}">
+			    <f:selectItem itemLabel="Selecione a turma" />
+	    			<f:selectItems value="#{relatorioAlunoPorTurmaBean.turmas}" var="turma" 
+						itemLabel="#{turma.descricao}" itemValue="#{turma}"/>
+	    		</p:selectOneMenu>
+			</p:panelGrid>
+			
+			<h:panelGroup rendered="#{relatorioAlunoPorTurmaBean.turma != null}">
+				<h3>Alunos por turma</h3>
+
+				<p:dataTable id="turmasTable" value="#{relatorioAlunoPorTurmaBean.alunos}" var="aluno"
+		    		style="margin-top: 20px" emptyMessage="Nenhum aluno encontrado." rows="5"
+		    		paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom">
+		    		
+		    		<p:column headerText="Código" style="text-align: center; width: 100px">
+		    			<h:outputText value="#{aluno.codigo}" />
+		    		</p:column>
+		    		<p:column headerText="Nome">
+		    			<h:outputText value="#{aluno.nome}" />
+		    		</p:column>
+		    		<p:column headerText="Cpf">
+		    			<h:outputText value="#{aluno.cpf}" /> 
+		    		</p:column>
+		    		<p:column headerText="Rg">
+		    			<h:outputText value="#{aluno.rg}" /> 
+		    		</p:column>
+		    		<p:column headerText="Telefone">
+		    			<h:outputText value="#{aluno.telefone}" /> 
+		    		</p:column>
+		    		<p:column headerText="Curso">
+		    			<h:outputText value="#{aluno.matricula.turma.curso.nome}" /> 
+		    		</p:column>
+		
+		    </p:dataTable>
+			</h:panelGroup>
+
+		</h:form>
+    </ui:define>
+</ui:composition>

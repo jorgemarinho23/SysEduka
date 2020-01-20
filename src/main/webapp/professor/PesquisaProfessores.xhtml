@@ -1,0 +1,99 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="titulo">Pesquisa de professores</ui:define>
+    
+    <ui:define name="corpo">
+    	<h1>Pesquisa de professores</h1>
+    	
+    	<h:form id="frmPesquisa">
+    		<p:messages id="messages" autoUpdate="true" closable="true" />
+    		
+    		<p:toolbar style="margin-top: 20px">
+    		    <p:toolbarGroup>
+    				<p:commandButton value="Pesquisar" id="pesquisar" action="#{pesquisaProfessorBean.buscarPorNome}"  icon="ui-icon-search"
+    				update="@form"/>
+    			</p:toolbarGroup>
+    			<p:toolbarGroup align="right">
+    				<p:commandButton value="Novo" id="botaoNovo" action="/professor/CadastraProfessor.xhtml" icon="ui-icon-circlesmall-plus"/>
+    			</p:toolbarGroup>
+    		</p:toolbar>
+    		
+    		<p:panelGrid columns="2" id="painel" style="width: 100%; margin-top: 20px"
+	    			columnClasses="rotulo, campo">
+	    		<p:outputLabel value="Nome" for="nome"/>
+	    		<p:inputText id="nome" size="60" value="#{pesquisaProfessorBean.nome}" />
+	    	</p:panelGrid>
+    	
+	    	<p:dataTable id="professoresTable" value="#{pesquisaProfessorBean.professores}" var="professor"
+		    		style="margin-top: 20px" emptyMessage="Nenhum professor encontrado." rows="20"
+		    		paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom">
+		    		<p:column headerText="Código" style="text-align: center; width: 100px">
+		    			<h:outputText value="#{professor.codigo}" />
+		    		</p:column>
+		    		<p:column headerText="Nome">
+		    			<h:outputText value="#{professor.nome}" />
+		    		</p:column>
+		    		
+		    		<p:column headerText="Sexo">
+		    			<h:outputText value="#{professor.sexo}" />
+		    		</p:column>
+		    		
+		    		<p:column headerText="Email">
+		    			<h:outputText value="#{professor.email}" />
+		    		</p:column>
+		    		
+		    		<p:column headerText="Cidade">
+		    			<h:outputText value="#{professor.cidade}" />
+		    		</p:column>
+		    		
+		    		<p:column headerText="Estado">
+		    			<h:outputText value="#{professor.estado}" />
+		    		</p:column>
+		    		
+		    		<p:column headerText="País">
+		    			<h:outputText value="#{professor.pais}" />
+		    		</p:column>
+		    		
+		    		<p:column headerText="Endereço">
+		    			<h:outputText value="#{professor.endereco}" />
+		    		</p:column>
+		    		
+		    		<p:column headerText="Cpf">
+		    			<h:outputText value="#{professor.cpf}" />
+		    		</p:column>
+		    		
+		    		<p:column headerText="Rg">
+		    			<h:outputText value="#{professor.rg}" />
+		    		</p:column>
+		    	
+		    	   <p:column headerText="Telefone">
+		    			<h:outputText value="#{professor.telefone}" />
+		    		</p:column>
+		    		
+		    		
+		   <p:column style="width: 100px; text-align: center"> 
+		    			<p:button outcome="CadastraProfessor" icon="ui-icon-pencil" title="Editar">
+		    				<f:param name="professor" value="#{professor.codigo}"/>
+		    			</p:button>
+		    			<p:commandButton disabled="#{seguranca.excluirRegistro}" icon="ui-icon-trash" title="Excluir" oncomplete="confirmacaoExclusao.show()"
+								process="@this" update=":frmPesquisa:confirmacaoExclusaoDialog">
+							<f:setPropertyActionListener target="#{pesquisaProfessorBean.professorSelecionado}" value="#{professor}" />
+						</p:commandButton>
+		   </p:column>
+		    </p:dataTable>
+		    
+		    <p:confirmDialog id="confirmacaoExclusaoDialog" widgetVar="confirmacaoExclusao"
+	        		message="Tem certeza que deseja excluir o professor #{pesquisaProfessorBean.professorSelecionado.nome}?"  
+	                header="Exclusão de aluno" severity="alert">
+	        	<p:button value="Não" onclick="confirmacaoExclusao.hide(); return false;" />
+	        	<p:commandButton value="Sim" update=":frmPesquisa:professoresTable"
+	        			onclick="confirmacaoExclusao.hide()" action="#{pesquisaProfessorBean.excluir}" />
+	    	</p:confirmDialog>
+	    </h:form>
+    </ui:define>
+</ui:composition>

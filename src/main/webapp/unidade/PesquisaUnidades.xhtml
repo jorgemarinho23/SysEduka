@@ -1,0 +1,54 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="titulo">Pesquisa de unidades</ui:define>
+    
+    <ui:define name="corpo">
+    	<h1>Pesquisa de unidades</h1>
+    	
+    	<h:form id="frmPesquisa">
+    		<p:messages id="messages" autoUpdate="true" closable="true" />
+    		
+    		<p:toolbar style="margin-top: 20px">
+    			<p:toolbarGroup>
+    				<p:commandButton value="Novo" id="botaoNovo" action="/unidade/CadastraUnidade.xhtml" icon="ui-icon-circlesmall-plus"/>
+    			</p:toolbarGroup>
+    		</p:toolbar>
+    	
+	    	<p:dataTable id="unidadesTable" value="#{pesquisaUnidadeBean.unidades}" var="unidade"
+		    		style="margin-top: 20px" emptyMessage="Nenhuma unidade encontrada." rows="20"
+		    		paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom">
+		    		<p:column headerText="Código" style="text-align: center; width: 100px">
+		    			<h:outputText value="#{unidade.codigo}" />
+		    		</p:column>
+		    		<p:column headerText="Descrição">
+		    			<h:outputText value="#{unidade.descricao}" />
+		    		</p:column>
+		    		
+
+		    		
+		   <p:column style="width: 100px; text-align: center"> 
+		    			<p:button outcome="CadastraUnidade" icon="ui-icon-pencil" title="Editar">
+		    				<f:param name="unidade" value="#{unidade.codigo}"/>
+		    			</p:button>
+		    			<p:commandButton disabled="#{seguranca.excluirRegistro}" icon="ui-icon-trash" title="Excluir" oncomplete="confirmacaoExclusao.show()"
+								process="@this" update=":frmPesquisa:confirmacaoExclusaoDialog">
+							<f:setPropertyActionListener target="#{pesquisaUnidadeBean.unidadeSelesionada}" value="#{unidade}" />
+						</p:commandButton>
+		   </p:column>
+		    </p:dataTable>
+		    
+		    <p:confirmDialog id="confirmacaoExclusaoDialog" widgetVar="confirmacaoExclusao"
+	        		message="Tem certeza que deseja excluir a unidade #{pesquisaUnidadeBean.unidadeSelesionada.descricao}?"  
+	                header="Exclusão de unidade" severity="alert">
+	        	<p:button value="Não" onclick="confirmacaoExclusao.hide(); return false;" />
+	        	<p:commandButton value="Sim" update=":frmPesquisa:unidadesTable"
+	        			onclick="confirmacaoExclusao.hide()" action="#{pesquisaUnidadeBean.excluir}" />
+	    	</p:confirmDialog>
+	    </h:form>
+    </ui:define>
+</ui:composition>

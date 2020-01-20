@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title><ui:insert name="titulo">Sistema Educação</ui:insert></title>
+        <h:outputStylesheet library="css" name="sistema.css" />
+        <h:outputScript library="js" name="calendar.js"/>
+	</h:head>
+
+	<h:body>	
+	<p:ajaxStatus styleClass="ajax-status">
+			<f:facet name="start">
+				<h:graphicImage library="images" name="loading.gif"/>
+			</f:facet>
+			<f:facet name="complete">
+				<h:outputText value=""/>
+			</f:facet>
+	</p:ajaxStatus>
+	
+		<header>
+			<div style="float: left">
+				<h:link outcome="/Home">
+					<h:graphicImage library="images" name="Log1.png" />
+				</h:link>
+			</div>
+			
+			<div style="float: right; margin-right: 110px">
+				<span style="float: left; height: 30px; line-height: 30px; margin-right: 60px">
+				Olá #{seguranca.nomeUsuario} !
+				</span>
+				
+				<h:form style="display: inline-block">
+					<p:menubar styleClass="menu-sistema">
+						<p:submenu label="Cadastros" icon="ui-icon-disk">
+							<p:menuitem value="Professor" outcome="/professor/CadastraProfessor.xhtml" />
+							<p:menuitem value="Cordenador" outcome="/cordenador/CadastraCordenador.xhtml" />
+							<p:menuitem value="Aluno" outcome="/aluno/CadastraAluno.xhtml" />
+							<p:menuitem value="Usuário" outcome="/usuario/CadastraUsuario.xhtml" />
+							<p:separator/>
+							<p:menuitem value="Disciplina" outcome="/disciplina/CadastraDisciplina.xhtml" />
+							<p:menuitem value="Curso" outcome="/curso/CadastraCurso.xhtml"  />		
+						</p:submenu>
+						<p:submenu label="Estutura" icon="ui-icon-disk">
+							<p:menuitem value="Unidade" outcome="/unidade/CadastraUnidade.xhtml" />
+							<p:menuitem value="Sala" outcome="/sala/CadastraSala.xhtml" />
+						</p:submenu>
+						<p:menuitem value="Matricula" outcome="/matricula/CadastraMatricula.xhtml" icon="ui-icon-circlesmall-plus" />
+						<p:menuitem value="Turma" outcome="/turma/CadastraTurma.xhtml" icon="ui-icon-circlesmall-plus" />
+						<p:submenu label="Relatórios" icon="ui-icon-search" >
+						<p:menuitem value="Alunos" outcome="/relatorio/AlunosPorTurma.xhtml" />
+						<p:menuitem value="Alunos por turma" outcome="/relatorio/RelatorioAlunosPorTurma.xhtml" />
+						</p:submenu>
+						<p:menuitem value="Sair" url="/j_spring_security_logout" />
+					</p:menubar>
+				</h:form>
+			</div>
+			<div style="clear: both"></div>
+		</header>
+
+		<div id="conteudo">
+			<ui:insert name="corpo"/>
+		</div>
+		
+		<p:separator style="margin-top: 20px"/>
+		
+		<footer>
+			Sistema para faculdades 	 
+		</footer>
+		
+	</h:body>
+	
+</html>

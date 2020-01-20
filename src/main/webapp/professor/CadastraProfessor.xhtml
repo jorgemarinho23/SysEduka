@@ -1,0 +1,100 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui">
+    
+
+    <ui:define name="titulo">#{cadastraProfessorBean.editando ? "Editar professor" : "Novo professor"}</ui:define>
+    
+    <ui:define name="corpo">
+    	<f:metadata>
+			<o:viewParam name="professor" value="#{cadastraProfessorBean.professor}"  />
+		</f:metadata> 
+ 
+    	<h1>#{cadastraProfessorBean.editando ? "Editar professor" : "Novo professor"}</h1>
+    	
+    	<h:form id="frmCadastro">
+    		<p:messages id="messages" autoUpdate="true" closable="true" />
+    	
+	    	<p:toolbar style="margin-top: 20px">
+	    		<p:toolbarGroup>
+	    			<p:commandButton  value="Salvar" id="botaoSalvar" action="#{cadastraProfessorBean.salvar}"  update="frmCadastro" icon="ui-icon-disk"/>
+	    		</p:toolbarGroup>
+	    		<p:toolbarGroup align="right">
+					<p:button value="Pesquisa" outcome="/professor/PesquisaProfessores.xhtml" icon="ui-icon-search"/>
+				</p:toolbarGroup>
+	    	</p:toolbar>
+	    	
+	    	 <p:panelGrid columns="4" id="painel3" style="width: 30%; margin-top: 20px"
+	    			columnClasses="rotulo, campo">
+	    		<p:outputLabel value="Código" for="codigo"/>
+	    		<p:inputText id="codigo" size="20" maxlength="20" value="#{cadastraProfessorBean.professor.codigo}" readonly="true"/>
+	    		
+
+	    		
+	    	</p:panelGrid>
+	    	
+	    	<p:tabView style="margin-top: 20px">
+	    	  <p:tab title="Dados pessoais">
+	    	  
+	    	  <p:panelGrid columns="4" id="painel" style="width: 100%; margin-top: 20px"
+	    			columnClasses="rotulo, campo,rotulo,campo">
+	    		
+	    		
+	    		<p:outputLabel value="Nome" for="nome"/>
+	    		<p:inputText id="nome" size="50" maxlength="80"  value="#{cadastraProfessorBean.professor.nome}"/>
+	    		
+	    		<p:outputLabel value="Sexo" for="sexo"/>
+	    		<p:selectOneRadio id="sexo"  unselectable="true" value="#{cadastraProfessorBean.professor.sexo}" >
+                <f:selectItem itemLabel="Masculino" itemValue="Masculino" />
+                <f:selectItem itemLabel="Feminino" itemValue="Feminino" />
+                </p:selectOneRadio>
+	    		
+	    		<p:outputLabel value="Email" for="email"/>
+	    		<p:inputText id="email" size="40" maxlength="80" value="#{cadastraProfessorBean.professor.email}"/>
+	    		
+	    	
+	    		<p:outputLabel value="Cpf" for="cpf"/>
+	    		<p:inputText id="cpf" size="15" maxlength="80" value="#{cadastraProfessorBean.professor.cpf}"/>
+	    		
+	    		<p:outputLabel value="Rg" for="rg"/>
+	    		<p:inputText id="rg" size="15" maxlength="80" value="#{cadastraProfessorBean.professor.rg}"/>
+	    		
+	    		<p:outputLabel value="Telefone" for="telefone"/>
+	    		<p:inputText id="telefone" size="15" maxlength="80" value="#{cadastraProfessorBean.professor.telefone}"/>
+
+	    		
+	    	</p:panelGrid>
+	 
+	    	  
+	   </p:tab>
+	    	  
+	    	 
+	    <p:tab title="Endereço">
+	        	   	<p:panelGrid columns="4" id="painelEndereço" style="width: 100%; margin-top: 20px"
+	    			columnClasses="rotulo, campo,rotulo,campo">
+	    		<p:outputLabel value="Cidade" for="cidade"/>
+	    		<p:inputText id="cidade" size="20" maxlength="60" value="#{cadastraProfessorBean.professor.cidade}"/>
+	    		
+	    		<p:outputLabel value="Estado" for="estado"/>
+	    		<p:inputText id="estado" size="20" maxlength="80" value="#{cadastraProfessorBean.professor.estado}"/>
+	    		
+	    		<p:outputLabel value="País" for="pais"/>
+	    		<p:inputText id="pais" size="20" maxlength="80" value="#{cadastraProfessorBean.professor.pais}"/>
+	    		
+	    		<p:outputLabel value="Endereço" for="endereco"/>
+	    		<p:inputText id="endereco" size="60" maxlength="80" value="#{cadastraProfessorBean.professor.endereco}"/>
+	    		
+	    	</p:panelGrid> 
+	    	  
+	   </p:tab>
+	    	  
+	    	  
+	    	
+	    	</p:tabView>
+    	</h:form>
+    </ui:define>
+</ui:composition>

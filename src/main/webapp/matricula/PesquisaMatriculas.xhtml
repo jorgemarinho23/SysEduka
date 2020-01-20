@@ -1,0 +1,57 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="titulo">Pesquisa de matriculas</ui:define>
+    
+    <ui:define name="corpo">
+    	<h1>Pesquisa de matriculas</h1>
+    	
+    	<h:form id="frmPesquisa">
+    		<p:messages id="messages" autoUpdate="true" closable="true" />
+    		
+    		<p:toolbar style="margin-top: 20px">
+    			<p:toolbarGroup>
+    				<p:commandButton value="Nova" id="botaoNovo" action="/matricula/CadastraMatricula.xhtml" icon="ui-icon-circlesmall-plus"/>
+    			</p:toolbarGroup>
+    		</p:toolbar>
+    	
+	    	<p:dataTable id="matriculasTable" value="#{pesquisaMatriculaBean.matriculas}" var="matricula"
+		    		style="margin-top: 20px" emptyMessage="Nenhuma matricula encontrada." rows="20"
+		    		paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom">
+		    		<p:column headerText="Código" style="text-align: center; width: 100px">
+		    			<h:outputText value="#{matricula.codigo}" />
+		    		</p:column>
+		    		<p:column headerText="Aluno">
+		    			<h:outputText value="#{matricula.aluno.nome}" />
+		    		</p:column>
+		    		
+		    		<p:column headerText="Turma">
+		    			<h:outputText value="#{matricula.turma.descricao}" />
+		    		</p:column>
+
+		    		
+		   <p:column style="width: 100px; text-align: center"> 
+		    			<p:button outcome="CadastraMatricula" icon="ui-icon-pencil" title="Editar">
+		    				<f:param disable="matricula.aluno" name="matricula" value="#{matricula.codigo}"/>
+		    			</p:button>
+		    			<p:commandButton disabled="#{seguranca.excluirRegistro}" icon="ui-icon-trash" title="Excluir" oncomplete="confirmacaoExclusao.show()"
+								process="@this" update=":frmPesquisa:confirmacaoExclusaoDialog">
+							<f:setPropertyActionListener target="#{pesquisaMatriculaBean.matriculaSelecionada}" value="#{matricula}" />
+						</p:commandButton>			
+		   </p:column>
+		    </p:dataTable>
+		     <p:confirmDialog id="confirmacaoExclusaoDialog" widgetVar="confirmacaoExclusao"
+	        		message="Tem certeza que deseja excluir a matricula do aluno #{pesquisaMatriculaBean.matriculaSelecionada.aluno.nome}?"  
+	                header="Exclusão de matricula" severity="alert">
+	        	<p:button value="Não" onclick="confirmacaoExclusao.hide(); return false;" />
+	        	<p:commandButton value="Sim" update=":frmPesquisa:matriculasTable"
+	        			onclick="confirmacaoExclusao.hide()" action="#{pesquisaMatriculaBean.excluir}" />
+	    	</p:confirmDialog>
+
+	    </h:form>
+    </ui:define>
+</ui:composition>
